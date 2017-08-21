@@ -1,0 +1,25 @@
+{
+  "name": "GDApi",
+  "version": "1.0.0",
+  "description": "This plugin was implemented by GameDistribution based on Android&iOS SDKs.",
+  "cordova": {
+    "id": "gd.plugin.cordova.api",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GameDistribution/GD-Cordova.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Emre Demir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GameDistribution/GD-Cordova/issues"
+  },
+  "homepage": "https://github.com/GameDistribution/GD-Cordova#readme"
+}
