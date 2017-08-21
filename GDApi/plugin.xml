@@ -1,2 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="gd.plugin.cordova.api" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"><name>GDApi</name><js-module name="GDApi" src="www/GDApi.js"><clobbers target="cordova.plugins.GDApi" /></js-module><platform name="android"><config-file parent="/*" target="res/xml/config.xml"><feature name="GDApi"><param name="android-package" value="gd.plugin.cordova.api.GDApi" /></feature></config-file><config-file parent="/*" target="AndroidManifest.xml"></config-file><source-file src="src/android/GDApi.java" target-dir="src/gd/plugin/cordova/api/GDApi" /></platform></plugin>
+<plugin id="gd.plugin.cordova.api" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>GDApi</name>
+  <js-module name="GDApi" src="www/GDApi.js"><clobbers target="cordova.plugins.GDApi"/></js-module>
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="GDApi"><param name="android-package" value="gd.plugin.cordova.api.GDApi"/></feature>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml"></config-file><source-file src="src/android/GDApi.java" target-dir="src/gd/plugin/cordova/api/GDApi"/></platform>
+</plugin>
