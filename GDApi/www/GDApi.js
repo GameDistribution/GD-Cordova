@@ -7,3 +7,11 @@ exports.init = function(arg0, success, error) {
 exports.showBanner = function(arg0, success, error) {
     exec(success, error, "GDApi", "showBanner", arg0);
 };
+
+exports.addTestDevice = function(arg0, success, error) {
+    exec(success, error, "GDApi", "addTestDevice", arg0);
+};
+
+exports.setAdListener = function(arg0, success, error) {
+    exec(success, error, "GDApi", "setAdListener", arg0);
+};
