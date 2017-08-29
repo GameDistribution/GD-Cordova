@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-gdapi" version="0.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-gdapi" version="0.0.4" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>GDApi</name>
-    <js-module name="GDApi" src="www/GDApi.js">
+    <js-module name="gdApi" src="www/gdApi.js">
         <clobbers target="cordova.plugins.gdApi"/>
     </js-module>
     <keywords>ads, gamedistribution</keywords>
@@ -16,6 +16,6 @@
             <uses-permission android:name="android.permission.GET_TASKS"/>
         </config-file>
         <source-file src="src/android/gdandroidapi.jar" target-dir="libs" framework="true"/>
-        <source-file src="src/android/GDApi.java" target-dir="src/gd/plugin/cordova/api/GDApi"/>
+        <source-file src="src/android/gdApi.java" target-dir="src/gd/plugin/cordova/api/gdApi"/>
     </platform>
 </plugin>
