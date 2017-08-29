@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-gdapi" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-gdapi" version="0.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>GDApi</name>
     <js-module name="GDApi" src="www/GDApi.js">
-        <clobbers target="cordova.plugins.GDApi"/>
+        <clobbers target="cordova.plugins.gdApi"/>
     </js-module>
     <keywords>ads, gamedistribution</keywords>
     <platform name="android">
-        <config-file parent="/*" target="res/xml/config.xml">
+        <config-file parent="/*" target="config.xml">
             <feature name="gdApi">
                 <param name="android-package" value="cordova.plugins.gdApi"/>
             </feature>
