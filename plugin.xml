@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-gdapi" version="0.0.5" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-gdapi" version="0.0.6" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>GDApi</name>
     <js-module name="gdApi" src="www/gdApi.js">
         <clobbers target="cordova.plugins.gdApi"/>
@@ -8,7 +8,7 @@
     <platform name="android">
         <config-file parent="/*" target="config.xml">
             <feature name="gdApi">
-                <param name="android-package" value="cordova.plugins.gdApi"/>
+                <param name="android-package" value="gd.plugin.cordova.api.GDApi"/>
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml">
