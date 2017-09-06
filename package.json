@@ -1,6 +1,6 @@
 {
   "name": "@gamedistribution.com/cordova-plugin-gdapi",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "This plugin was implemented by GameDistribution based on GD Android SDK.",
   "cordova": {
     "id": "cordova-plugin-gdapi",

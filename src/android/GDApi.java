@@ -154,6 +154,29 @@ public class GDApi extends CordovaPlugin {
                     }
                 }
 
+                @Override
+                public void onBannerFailed(String msg){
+                    super.onBannerFailed(msg);
+
+                    PluginResult result;
+                    try{
+                        JSONObject jo = new JSONObject();
+                        jo.put("event", "bannerFailed");
+                        jo.put("message",msg);
+
+                        result = new PluginResult(PluginResult.Status.OK, jo);
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+
+                    }catch(JSONException je){
+                        result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+                    }
+
+                }
+
+
             });
       }
       else{
