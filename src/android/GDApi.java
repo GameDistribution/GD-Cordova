@@ -55,14 +55,22 @@ public class GDApi extends CordovaPlugin {
     private void init(String gameId,String regId, CallbackContext callbackContext) {
        if(!isApiInitialized){
          Activity activity = this.cordova.getActivity();
-         GDlogger.debug(true);
-         GDlogger.init(gameId, regId, activity, true);
-         isApiInitialized = true;
-         callbackContext.success("Api initialized succesfully.");
+
+         if(GDlogger.isInternetAvailable()){
+             GDlogger.debug(true);
+             GDlogger.init(gameId, regId, activity, true);
+             isApiInitialized = true;
+             callbackContext.success("Api initialized succesfully.");
+         }
+         else{
+             callbackContext.error("There is no internet connection!");
+         }
+
        }
        else{
          callbackContext.error("Api is already initialized!");
        }
+
     }
 
     //this method request for an interstitial ad
