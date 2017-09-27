@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-gdapi" version="0.0.9" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-gdapi" version="0.1.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>GDApi</name>
     <js-module name="gdApi" src="www/gdApi.js">
         <clobbers target="cordova.plugins.gdApi"/>
@@ -17,5 +17,16 @@
         </config-file>
         <source-file src="src/android/gdandroidapi.jar" target-dir="libs" framework="true"/>
         <source-file src="src/android/GDApi.java" target-dir="src/gd/plugin/cordova/api/GDApi"/>
+    </platform>
+
+    <platform name="ios">
+      <config-file target="config.xml" parent="/*">
+        <feature name="gdApi">
+          <param name="ios-package" value="GDApi" />
+          <param name="onload" value="true" />
+        </feature>
+      </config-file>
+      <header-file src="src/ios/GDApi.h" />
+      <source-file src="src/ios/GDApi.m" />
     </platform>
 </plugin>
