@@ -23,10 +23,44 @@
       <config-file target="config.xml" parent="/*">
         <feature name="gdApi">
           <param name="ios-package" value="GDApi" />
-          <param name="onload" value="true" />
         </feature>
       </config-file>
+      <!-- <source-file src="src/ios/libGDApi.a" framework="true" /> -->
       <header-file src="src/ios/GDApi.h" />
       <source-file src="src/ios/GDApi.m" />
+      <header-file src="src/ios/api/GDAd.h" />
+      <source-file src="src/ios/api/GDAd.m" />
+      <header-file src="src/ios/api/GDAdDelegate.h" />
+      <source-file src="src/ios/api/GDAdDelegate.m" />
+      <header-file src="src/ios/api/GDAdPosition.h" />
+      <source-file src="src/ios/api/GDAdPosition.m" />
+      <header-file src="src/ios/api/GDAdSize.h" />
+      <source-file src="src/ios/api/GDAdSize.m" />
+      <header-file src="src/ios/api/GDAlignment.h" />
+      <source-file src="src/ios/api/GDAlignment.m" />
+      <header-file src="src/ios/api/GDbannerData.h" />
+      <source-file src="src/ios/api/GDbannerData.m" />
+      <header-file src="src/ios/api/GDcustomLog.h" />
+      <source-file src="src/ios/api/GDcustomLog.m" />
+      <header-file src="src/ios/api/GDlogchannel.h" />
+      <source-file src="src/ios/api/GDlogchannel.m" />
+      <header-file src="src/ios/api/GDLogger.h" />
+      <source-file src="src/ios/api/GDLogger.m" />
+      <header-file src="src/ios/api/GDLogRequest.h" />
+      <source-file src="src/ios/api/GDLogRequest.m" />
+      <header-file src="src/ios/api/GDpostObj.h" />
+      <source-file src="src/ios/api/GDpostObj.m" />
+      <header-file src="src/ios/api/GDResponseActRes.h" />
+      <source-file src="src/ios/api/GDResponseActRes.m" />
+      <header-file src="src/ios/api/GDresponseData.h" />
+      <source-file src="src/ios/api/GDresponseData.m" />
+      <header-file src="src/ios/api/GDSendObject.h" />
+      <source-file src="src/ios/api/GDSendObject.m" />
+      <header-file src="src/ios/api/GDstatic.h" />
+      <source-file src="src/ios/api/GDstatic.m" />
+      <header-file src="src/ios/api/GDUtils.h" />
+      <source-file src="src/ios/api/GDUtils.m" />
+
+
     </platform>
 </plugin>
