@@ -1,7 +1,7 @@
 {
   "name": "@gamedistribution.com/cordova-plugin-gdapi",
   "version": "0.1.0",
-  "description": "This plugin was implemented by GameDistribution based on GD Android SDK.",
+  "description": "This plugin was implemented by GameDistribution. It can be used on both ios and android platform.",
   "cordova": {
     "id": "cordova-plugin-gdapi",
     "platforms": [
@@ -14,7 +14,8 @@
   },
   "keywords": [
     "ecosystem:cordova",
-    "cordova-android"
+    "cordova-android",
+    "cordova-ios"
   ],
   "author": "gamedistribution.com",
   "contributors":[
