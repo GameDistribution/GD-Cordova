@@ -1,6 +1,7 @@
 #import <Cordova/CDV.h>
+#import "GDAdDelegate.h"
 
-@interface GDApi : CDVPlugin
+@interface GDApi : CDVPlugin <AdDelegate>
 
 - (void)init:(CDVInvokedUrlCommand*)command;
 - (void)showBanner:(CDVInvokedUrlCommand*)command;

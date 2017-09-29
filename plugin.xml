@@ -25,7 +25,7 @@
           <param name="ios-package" value="GDApi" />
         </feature>
       </config-file>
-      <!-- <source-file src="src/ios/libGDApi.a" framework="true" /> -->
+
       <header-file src="src/ios/GDApi.h" />
       <source-file src="src/ios/GDApi.m" />
       <header-file src="src/ios/api/GDAd.h" />
