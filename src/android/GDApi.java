@@ -71,7 +71,12 @@ public class GDApi extends CordovaPlugin {
     private void showBanner(CallbackContext callbackContext){
 
         if(isApiInitialized){
-            GDlogger.ShowBanner(true);
+
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    GDlogger.ShowBanner(true);
+                }
+            });
         }
         else{
             callbackContext.error("Api is not initialized. Firstly, call init()");

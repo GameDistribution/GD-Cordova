@@ -8,8 +8,8 @@ exports.showBanner = function(success, error) {
     exec(success, error, "gdApi", "showBanner", []);
 };
 
-exports.addTestDevice = function(arg0, success, error) {
-    exec(success, error, "gdApi", "addTestDevice", arg0);
+exports.enableTestAds = function() {
+    exec(null, null, "gdApi", "enableTestAds", null);
 };
 
 exports.setAdListener = function(success, error) {

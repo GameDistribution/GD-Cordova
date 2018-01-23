@@ -15,6 +15,8 @@
             <uses-permission android:name="android.permission.INTERNET"/>
         </config-file>
         <framework src="com.android.volley:volley:1.0.0"/>
+        <framework src="com.google.code.gson:gson:2.8.2"/>
+        
         <source-file src="src/android/gdandroidapi.jar" target-dir="libs" framework="true"/>
         <source-file src="src/android/GDApi.java" target-dir="src/gd/plugin/cordova/api/GDApi"/>
     </platform>
