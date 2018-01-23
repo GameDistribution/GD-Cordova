@@ -36,9 +36,8 @@ public class GDApi extends CordovaPlugin {
             return true;
         }
 
-        if(action.equals("addTestDevice")){
-            String deviceId = args.getString(0);
-            this.addTestDevice(deviceId,callbackContext);
+        if(action.equals("enableTestAds")){
+            this.enableTestAds(callbackContext);
             return true;
         }
 
@@ -56,15 +55,10 @@ public class GDApi extends CordovaPlugin {
        if(!isApiInitialized){
          Activity activity = this.cordova.getActivity();
 
-         if(GDlogger.isInternetAvailable()){
-             GDlogger.debug(true);
-             GDlogger.init(gameId, regId, activity, true);
-             isApiInitialized = true;
-             callbackContext.success("Api initialized succesfully.");
-         }
-         else{
-             callbackContext.error("There is no internet connection!");
-         }
+         GDlogger.debug(true);
+         GDlogger.init(gameId, regId, activity, true);
+         isApiInitialized = true;
+         callbackContext.success("Api initialized succesfully.");
 
        }
        else{
@@ -84,14 +78,8 @@ public class GDApi extends CordovaPlugin {
         }
     }
 
-    // this method adds a test device so that we can request test ads
-    private void addTestDevice(String deviceId, CallbackContext callbackContext){
-      if(isApiInitialized){
-          GDlogger.addTestDevice(deviceId);
-      }
-      else{
-          callbackContext.error("Api is not initialized. Firstly, call init()");
-      }
+    private void enableTestAds(CallbackContext callbackContext){
+        GDlogger.enableTestAds();
     }
 
     // this method adds event listener for api. Invokes callbackContext.success when an event received
@@ -105,7 +93,7 @@ public class GDApi extends CordovaPlugin {
                     PluginResult result;
                     try{
                         JSONObject jo = new JSONObject();
-                        jo.put("event", "bannerClosed");
+                        jo.put("event", "BANNER_CLOSED");
 
                         result = new PluginResult(PluginResult.Status.OK, jo);
                         result.setKeepCallback(true);
@@ -126,7 +114,7 @@ public class GDApi extends CordovaPlugin {
                     PluginResult result;
                     try{
                         JSONObject jo = new JSONObject();
-                        jo.put("event", "bannerStarted");
+                        jo.put("event", "BANNER_STARTED");
 
                         result = new PluginResult(PluginResult.Status.OK, jo);
                         result.setKeepCallback(true);
@@ -148,7 +136,7 @@ public class GDApi extends CordovaPlugin {
                     PluginResult result;
                     try{
                         JSONObject jo = new JSONObject();
-                        jo.put("event", "bannerReceived");
+                        jo.put("event", "BANNER_RECEIVED");
                         jo.put("addType","interstitial");
 
                         result = new PluginResult(PluginResult.Status.OK, jo);
@@ -169,7 +157,7 @@ public class GDApi extends CordovaPlugin {
                     PluginResult result;
                     try{
                         JSONObject jo = new JSONObject();
-                        jo.put("event", "bannerFailed");
+                        jo.put("event", "BANNER_FAILED");
                         jo.put("message",msg);
 
                         result = new PluginResult(PluginResult.Status.OK, jo);
@@ -184,6 +172,47 @@ public class GDApi extends CordovaPlugin {
 
                 }
 
+                @Override
+                public void onAPIReady(){
+                    super.onAPIReady();
+
+                    PluginResult result;
+                    try{
+                        JSONObject jo = new JSONObject();
+                        jo.put("event", "API_IS_READY");
+
+                        result = new PluginResult(PluginResult.Status.OK, jo);
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+
+                    }catch(JSONException je){
+                        result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+                    }
+                }
+
+
+                @Override
+                public void onAPINotReady(String error){
+                    super.onAPIReady();
+
+                    PluginResult result;
+                    try{
+                        JSONObject jo = new JSONObject();
+                        jo.put("event", "API_NOT_READY");
+                        jo.put("message",error);
+
+                        result = new PluginResult(PluginResult.Status.OK, jo);
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+
+                    }catch(JSONException je){
+                        result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+                    }
+                }
 
             });
       }
