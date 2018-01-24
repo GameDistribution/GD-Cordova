@@ -89,8 +89,8 @@ public class GDApi extends CordovaPlugin {
 
     // this method adds event listener for api. Invokes callbackContext.success when an event received
     private void setAdListener(final CallbackContext callbackContext) {
-      if(isApiInitialized){
-            GDlogger.setAdListener(new GDadListener() {
+
+      GDlogger.setAdListener(new GDadListener() {
                 @Override
                 public void onBannerClosed() {
                     super.onBannerClosed();
@@ -202,6 +202,8 @@ public class GDApi extends CordovaPlugin {
                 public void onAPINotReady(String error){
                     super.onAPIReady();
 
+                    isApiInitialized = false;
+
                     PluginResult result;
                     try{
                         JSONObject jo = new JSONObject();
@@ -220,10 +222,6 @@ public class GDApi extends CordovaPlugin {
                 }
 
             });
-      }
-      else{
-          callbackContext.error("Api is not initialized. Firstly, call init()");
-      }
 
     }
 }

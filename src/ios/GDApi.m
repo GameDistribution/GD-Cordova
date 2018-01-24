@@ -16,11 +16,10 @@ NSString *savedCommandId;
 
   if(!apiInitialized){
 
-    [GDLogger debug:true];
-    [GDLogger init:gameId andWithRegId:regId andWithIsPlugin:true];
-
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Api is initialized succesfully."];
     apiInitialized = true;
+    [GDLogger debug:true];
+    [GDLogger init:gameId andWithRegId:regId];
+
   }
   else{
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Api is already initialized."] ;
@@ -46,19 +45,10 @@ NSString *savedCommandId;
 
 }
 
-- (void)addTestDevice:(CDVInvokedUrlCommand*)command{
+- (void)enableTestAds:(CDVInvokedUrlCommand*)command{
   CDVPluginResult* pluginResult = nil;
 
-  if(apiInitialized){
-     NSString* testDeviceId = [command.arguments objectAtIndex:0];
-     [GDLogger addTestDevice:testDeviceId];
-  }
-  else{
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Api is not initialized.Firstly call 'init'."] ;
-  }
-
-  [self.commandDelegate sendPluginResult:pluginResult
-  callbackId:command.callbackId];
+    [GDLogger enableTestAds];
 
 }
 
@@ -66,20 +56,7 @@ NSString *savedCommandId;
 
   CDVPluginResult* pluginResult = nil;
 
-  if(apiInitialized){
-
-    savedCommandId = command.callbackId;
-    [GDLogger addEventListener:self];
-
-  }
-  else{
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Api is not initialized.Firstly call 'init'."] ;
-
-    [self.commandDelegate sendPluginResult:pluginResult
-    callbackId:command.callbackId];
-  }
-
-
+  [GDLogger addEventListener:self];
 
 }
 
@@ -88,7 +65,7 @@ NSString *savedCommandId;
     NSLog(@"Banner received!");
 
     NSArray *keys = [NSArray arrayWithObjects:@"event",@"adType", nil];
-    NSArray *objects = [NSArray arrayWithObjects:@"bannerReceived",@"interstitial", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"BANNER_RECEIVED",@"interstitial", nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
 
@@ -104,7 +81,7 @@ NSString *savedCommandId;
     NSLog(@"Banner started!");
 
     NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
-    NSArray *objects = [NSArray arrayWithObjects:@"bannerStarted", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"BANNER_STARTED", nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
@@ -118,7 +95,7 @@ NSString *savedCommandId;
     NSLog(@"Banner closed!");
 
     NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
-    NSArray *objects = [NSArray arrayWithObjects:@"bannerClosed", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"BANNER_CLOSED", nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
@@ -126,7 +103,6 @@ NSString *savedCommandId;
 
     [self.commandDelegate sendPluginResult:pluginResult
     callbackId:savedCommandId];
-
 
 }
 -(void) onBannerFailedToLoad:(GDAdDelegate*) sender withData:(NSData*) data{
@@ -134,7 +110,7 @@ NSString *savedCommandId;
     NSLog(@"Banner failed to load!");
 
     NSArray *keys = [NSArray arrayWithObjects:@"event",@"message", nil];
-    NSArray *objects = [NSArray arrayWithObjects:@"bannerFailed",adData[@"error"], nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"BANNER_FAILED",adData[@"error"], nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
@@ -144,6 +120,35 @@ NSString *savedCommandId;
     callbackId:savedCommandId];
 }
 
+-(void) onAPINotReady:(GDAdDelegate*) sender withData:(NSData*) data{
+    NSDictionary *adData = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSLog(@"API is not ready!");
+
+    NSArray *keys = [NSArray arrayWithObjects:@"event",@"message", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"API_NOT_READY",adData[@"error"], nil];
+    NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                       forKeys:keys];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult
+    callbackId:savedCommandId];
+}
+
+-(void) onAPIReady:(GDAdDelegate*) sender withData:(NSData*) data{
+    NSDictionary *adData = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSLog(@"API is not ready!");
+
+    NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"API_IS_READY", nil];
+    NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                       forKeys:keys];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult
+    callbackId:savedCommandId];
+}
 
 
 
