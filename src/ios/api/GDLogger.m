@@ -214,14 +214,13 @@ GDAdDelegate* delegate;
 +(void) showAd:(Boolean)isInterstitial withSize:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
     
     if(gdAPI != nil){
-        NSString *bundleId = @"bundle.test.1";
         NSString *msize = @"interstitial";
         
         if(!isInterstitial){
             msize = adsize;
         }
         
-        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=%@&msize=%@",bundleId,msize];
+        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=ios.%@&msize=%@",[GDGameData bundleId],msize];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setHTTPMethod:@"GET"];
@@ -240,16 +239,45 @@ GDAdDelegate* delegate;
                       NSArray *tunnlData = [res objectForKey:@"Items"];
                       [gdAPI setTunnlData:tunnlData];
                       
-                      if(isInterstitial){
-                        [gdAPI requestInterstitial];
+                      if([tunnlData count] > 0){
+                          if(isInterstitial){
+                              [gdAPI requestInterstitial];
+                          }
+                          else{
+                              [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+                          }
                       }
                       else{
-                        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+                          [GDUtils log:@"Game data is not empty."];
+                          NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                          NSArray *objects = [NSArray arrayWithObjects: @"Game data is empty.", nil];
+                          NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                             forKeys:keys];
+                          NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                          
+                          [[self gdAPI].delegate dispatchEvent:@"onBannerFailed" withData:eventData];
                       }
+                      
                   }
                   else{
                       [GDUtils log:@"Tunnl data is not json."];
+                      NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                      NSArray *objects = [NSArray arrayWithObjects: @"Something went wrong parsing game data.", nil];
+                      NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                         forKeys:keys];
+                      NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                      
+                      [[self gdAPI].delegate dispatchEvent:@"onBannerFailed" withData:eventData];
                   }
+              }
+              else{
+                  NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                  NSArray *objects = [NSArray arrayWithObjects: @"Something went wrong fetching game data.", nil];
+                  NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                     forKeys:keys];
+                  NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                  
+                  [[self gdAPI].delegate dispatchEvent:@"onBannerFailed" withData:eventData];
               }
               
           }] resume];
