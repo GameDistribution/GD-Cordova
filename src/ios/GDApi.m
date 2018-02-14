@@ -27,6 +27,7 @@ NSString *savedCommandId;
 
   [self.commandDelegate sendPluginResult:pluginResult
   callbackId:command.callbackId];
+  savedCommandId = command.callbackId;
 }
 
 - (void)showBanner:(CDVInvokedUrlCommand*)command{
@@ -135,9 +136,8 @@ NSString *savedCommandId;
     callbackId:savedCommandId];
 }
 
--(void) onAPIReady:(GDAdDelegate*) sender withData:(NSData*) data{
-    NSDictionary *adData = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    NSLog(@"API is not ready!");
+-(void) onAPIReady:(GDAdDelegate*) sender{
+    NSLog(@"API is ready!");
 
     NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
     NSArray *objects = [NSArray arrayWithObjects:@"API_IS_READY", nil];

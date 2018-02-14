@@ -130,8 +130,25 @@ GDAdDelegate* delegate;
                       }
                       
                   }
+                  else{
+                      [GDUtils log:@"Network error."];
+                      
+                      if([self gdAPI].delegate != nil){
+                          
+                          NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                          NSArray *objects = [NSArray arrayWithObjects:@"Network error.", nil];
+                          NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                             forKeys:keys];
+                          NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                          
+                          [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                      }
+                      
+                      gdAPI = nil;
+                  }
                   
               }] resume];
+         
         }
         else{
             if([self gdAPI].delegate != nil){
@@ -161,11 +178,6 @@ GDAdDelegate* delegate;
     if(gdAPI == nil){
         UIViewController *rootViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
         gdAPI = [[GDAd alloc] init:rootViewController andWithDelegate:delegate];
-        
-        if([GDGameData preRoll]){
-            [gdAPI requestInterstitial];
-        }
-
     }
 
 }
