@@ -225,7 +225,6 @@ int H_Banner;
     tunnlDatas = tunnlData;
 }
 
-
 -(void) addCustomTargeting:(NSString *)tag andValue:(NSString *)value{
     if(isApiInitialized){
         [self.extras setValue: value forKey: tag];
