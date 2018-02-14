@@ -27,7 +27,6 @@
           <param name="ios-package" value="GDApi" />
         </feature>
       </config-file>
- d
       <!--<framework src="src/ios/external/GoogleMobileAds.framework" custom="true" /> --> d
 
       <header-file src="src/ios/GDApi.h" />
