@@ -255,7 +255,24 @@ int H_Banner;
 
 // Called when an interstitial ad request succeeded.
 - (void)interstitialDidReceiveAd:(DFPInterstitial *)ad {
+    
     NSLog(@"interstitialDidReceiveAd");
+    
+    // inform tunnl we got ad
+    NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Imp"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:targetUrl]];
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+      ^(NSData * _Nullable data,
+        NSURLResponse * _Nullable response,
+        NSError * _Nullable error) {
+          
+          NSLog(@"imp");
+          
+      }] resume];
+    
     currentTunnlDataInd = -1; // reset index for further requests
     
     if (self.interstitial.isReady) {
@@ -285,6 +302,21 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     }
     else{
         
+        // inform tunnl we failed
+        NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Err"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              NSLog(@"imp error");
+              
+          }] resume];
+        
         tunnlDatas = nil ; // set nil fur further ad requests.
         currentTunnlDataInd = -1;
         
@@ -295,6 +327,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
         
         [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
+        
     }
 }
 
@@ -327,6 +360,22 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 - (void)adViewDidReceiveAd:(DFPBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
     
+    // inform tunnl we got ad
+    NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Imp"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:targetUrl]];
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+      ^(NSData * _Nullable data,
+        NSURLResponse * _Nullable response,
+        NSError * _Nullable error) {
+          
+          NSLog(@"imp");
+          
+      }] resume];
+    
+    
     currentTunnlDataInd = -1; // reset index for further requests
     
     NSString* width; NSString* height;
@@ -352,6 +401,21 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         [self requestInterstitial];
     }
     else{
+        
+        // inform tunnl we failed
+        NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Err"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              NSLog(@"imp error");
+              
+          }] resume];
         
         tunnlDatas = nil ; // set nil fur further ad requests.
         currentTunnlDataInd = -1;
