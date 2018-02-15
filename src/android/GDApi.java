@@ -121,27 +121,25 @@ public class GDApi extends CordovaPlugin {
     // this method adds event listener for api. Invokes callbackContext.success when an event received
     private void setAdListener() {
 
-      GDlogger.setAdListener(new GDadListener() {
+              GDlogger.setAdListener(new GDadListener() {
                 @Override
                 public void onBannerClosed() {
-                    super.onBannerClosed();
+                super.onBannerClosed();
 
-                        PluginResult result;
-                        try{
-                            JSONObject jo = new JSONObject();
-                            jo.put("event", "BANNER_CLOSED");
+                    PluginResult result;
+                    try{
+                        JSONObject jo = new JSONObject();
+                        jo.put("event", "BANNER_CLOSED");
 
-                            result = new PluginResult(PluginResult.Status.OK, jo);
-                            result.setKeepCallback(true);
-                            callbackContextEvent.sendPluginResult(result);
-                            //callbackContext.success(jo);
-                        }catch(JSONException je){
-                            result = new PluginResult(PluginResult.Status.OK, je.getMessage());
-                            result.setKeepCallback(true);
-                            callbackContextEvent.sendPluginResult(result);
-                        }
-                    }    
-
+                        result = new PluginResult(PluginResult.Status.OK, jo);
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+                        //callbackContext.success(jo);
+                    }catch(JSONException je){
+                        result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+                    }
                 }
 
                 @Override
@@ -269,6 +267,7 @@ public class GDApi extends CordovaPlugin {
                 }
 
             });
+
 
     }
 }
