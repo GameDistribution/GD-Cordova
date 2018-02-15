@@ -14,16 +14,24 @@ NSString *savedCommandId;
   NSString* gameId = [command.arguments objectAtIndex:0];
   NSString* regId = [command.arguments objectAtIndex:1];
 
-  if(!apiInitialized){
+  [GDLogger addEventListener:self];
 
-    apiInitialized = true;
+
+  if(!apiInitialized){
     [GDLogger debug:true];
     [GDLogger init:gameId andWithRegId:regId];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Api is initialized succesfully."] ;
-
   }
   else{
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Api is already initialized."] ;
+    NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"API_ALREADY_INITIALIZED", nil];
+    NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                       forKeys:keys];
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult
+    callbackId:savedCommandId];
   }
 
   [self.commandDelegate sendPluginResult:pluginResult
@@ -37,8 +45,15 @@ NSString *savedCommandId;
         [GDLogger showBanner:true];
     }
     else{
-      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Api is not initialized.Firstly call 'init'."] ;
+        NSArray *keys = [NSArray arrayWithObjects:@"event",@"message", nil];
+        NSArray *objects = [NSArray arrayWithObjects:@"API_NOT_READY",@"Api is not initialized. Firstly call init method to continue.", nil];
+        NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                           forKeys:keys];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
 
+        [self.commandDelegate sendPluginResult:pluginResult
+        callbackId:savedCommandId];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult
@@ -58,7 +73,6 @@ NSString *savedCommandId;
   CDVPluginResult* pluginResult = nil;
 
   savedCommandId = command.callbackId;
-  [GDLogger addEventListener:self];
 
 }
 
@@ -123,6 +137,8 @@ NSString *savedCommandId;
 }
 
 -(void) onAPINotReady:(GDAdDelegate*) sender withData:(NSData*) data{
+    apiInitialized = false;
+
     NSDictionary *adData = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
     NSLog(@"API is not ready!");
 
@@ -138,6 +154,7 @@ NSString *savedCommandId;
 }
 
 -(void) onAPIReady:(GDAdDelegate*) sender{
+    apiInitialized = true;
     NSLog(@"API is ready!");
 
     NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
@@ -150,7 +167,6 @@ NSString *savedCommandId;
     [self.commandDelegate sendPluginResult:pluginResult
     callbackId:savedCommandId];
 }
-
 
 
 @end
