@@ -61,6 +61,22 @@ public class GDApi extends CordovaPlugin {
          GDlogger.init(gameId, regId, activity, true);
        }
        else{
+          if(callbackContextEvent != null){
+            PluginResult result;
+            try{
+                JSONObject jo = new JSONObject();
+                jo.put("event", "API_ALREADY_INITIALIZED");
+
+                result = new PluginResult(PluginResult.Status.OK, jo);
+                result.setKeepCallback(true);
+                callbackContextEvent.sendPluginResult(result);
+
+            }catch(JSONException je){
+                result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                result.setKeepCallback(true);
+                callbackContextEvent.sendPluginResult(result);
+            }
+        }
        }
 
     }
@@ -77,7 +93,24 @@ public class GDApi extends CordovaPlugin {
             });
         }
         else{
-            callbackContext.error("Api is not initialized. Firstly, call init()");
+            if(callbackContextEvent != null){
+                PluginResult result;
+                try{
+                    JSONObject jo = new JSONObject();
+                    jo.put("event", "API_NOT_READY");
+                    jo.put("message","Api is not initialized. Firstly call init method to continue.");
+
+                    result = new PluginResult(PluginResult.Status.OK, jo);
+                    result.setKeepCallback(true);
+                    callbackContextEvent.sendPluginResult(result);
+
+                }catch(JSONException je){
+                    result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                    result.setKeepCallback(true);
+                    callbackContextEvent.sendPluginResult(result);
+                }
+            }
+
         }
     }
 
