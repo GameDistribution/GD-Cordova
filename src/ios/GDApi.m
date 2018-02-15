@@ -19,6 +19,7 @@ NSString *savedCommandId;
     apiInitialized = true;
     [GDLogger debug:true];
     [GDLogger init:gameId andWithRegId:regId];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Api is initialized succesfully."] ;
 
   }
   else{
@@ -27,7 +28,6 @@ NSString *savedCommandId;
 
   [self.commandDelegate sendPluginResult:pluginResult
   callbackId:command.callbackId];
-  savedCommandId = command.callbackId;
 }
 
 - (void)showBanner:(CDVInvokedUrlCommand*)command{
@@ -49,7 +49,7 @@ NSString *savedCommandId;
 - (void)enableTestAds:(CDVInvokedUrlCommand*)command{
   CDVPluginResult* pluginResult = nil;
 
-    [GDLogger enableTestAds];
+  [GDLogger enableTestAds];
 
 }
 
@@ -57,6 +57,7 @@ NSString *savedCommandId;
 
   CDVPluginResult* pluginResult = nil;
 
+  savedCommandId = command.callbackId;
   [GDLogger addEventListener:self];
 
 }

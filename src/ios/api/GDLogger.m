@@ -267,7 +267,7 @@ GDAdDelegate* delegate;
                                                                              forKeys:keys];
                           NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
                           
-                          [[self gdAPI].delegate dispatchEvent:@"onBannerFailed" withData:eventData];
+                          [[self gdAPI].delegate dispatchEvent:@"onBannerFailedToLoad" withData:eventData];
                       }
                       
                   }
@@ -279,7 +279,7 @@ GDAdDelegate* delegate;
                                                                          forKeys:keys];
                       NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
                       
-                      [[self gdAPI].delegate dispatchEvent:@"onBannerFailed" withData:eventData];
+                      [[self gdAPI].delegate dispatchEvent:@"onBannerFailedToLoad" withData:eventData];
                   }
               }
               else{
@@ -289,7 +289,7 @@ GDAdDelegate* delegate;
                                                                      forKeys:keys];
                   NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
                   
-                  [[self gdAPI].delegate dispatchEvent:@"onBannerFailed" withData:eventData];
+                  [[self gdAPI].delegate dispatchEvent:@"onBannerFailedToLoad" withData:eventData];
               }
               
           }] resume];
