@@ -36,6 +36,11 @@ public class GDApi extends CordovaPlugin {
             return true;
         }
 
+        if(action.equals("showPreload")){
+            this.showPreload(callbackContext);
+            return true;
+        }
+
         if(action.equals("enableTestAds")){
             this.enableTestAds(callbackContext);
             return true;
@@ -114,6 +119,39 @@ public class GDApi extends CordovaPlugin {
         }
     }
 
+    //this method shows a preload ad if there is any
+    private void showPreload(CallbackContext callbackContext){
+
+        if(isApiInitialized){
+
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    GDlogger.ShowPreload();
+                }
+            });
+        }
+        else{
+            if(callbackContextEvent != null){
+                PluginResult result;
+                try{
+                    JSONObject jo = new JSONObject();
+                    jo.put("event", "API_NOT_READY");
+                    jo.put("message","Api is not initialized. Firstly call init method to continue.");
+
+                    result = new PluginResult(PluginResult.Status.OK, jo);
+                    result.setKeepCallback(true);
+                    callbackContextEvent.sendPluginResult(result);
+
+                }catch(JSONException je){
+                    result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                    result.setKeepCallback(true);
+                    callbackContextEvent.sendPluginResult(result);
+                }
+            }
+
+        }
+    }
+
     private void enableTestAds(CallbackContext callbackContext){
         GDlogger.enableTestAds();
     }
@@ -124,22 +162,25 @@ public class GDApi extends CordovaPlugin {
               GDlogger.setAdListener(new GDadListener() {
                 @Override
                 public void onBannerClosed() {
-                super.onBannerClosed();
+                    super.onBannerClosed();
 
-                    PluginResult result;
-                    try{
-                        JSONObject jo = new JSONObject();
-                        jo.put("event", "BANNER_CLOSED");
+                    if(callbackContextEvent != null){
+                        PluginResult result;
+                        try{
+                            JSONObject jo = new JSONObject();
+                            jo.put("event", "BANNER_CLOSED");
 
-                        result = new PluginResult(PluginResult.Status.OK, jo);
-                        result.setKeepCallback(true);
-                        callbackContextEvent.sendPluginResult(result);
-                        //callbackContext.success(jo);
-                    }catch(JSONException je){
-                        result = new PluginResult(PluginResult.Status.OK, je.getMessage());
-                        result.setKeepCallback(true);
-                        callbackContextEvent.sendPluginResult(result);
+                            result = new PluginResult(PluginResult.Status.OK, jo);
+                            result.setKeepCallback(true);
+                            callbackContextEvent.sendPluginResult(result);
+                            //callbackContext.success(jo);
+                        }catch(JSONException je){
+                            result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                            result.setKeepCallback(true);
+                            callbackContextEvent.sendPluginResult(result);
+                        }
                     }
+                  
                 }
 
                 @Override
@@ -193,25 +234,25 @@ public class GDApi extends CordovaPlugin {
 
                 @Override
                 public void onBannerFailed(String msg){
-                    super.onBannerFailed(msg);
+                     super.onBannerFailed(msg);
 
-                 if(callbackContextEvent != null){
-                        PluginResult result;
-                        try{
-                            JSONObject jo = new JSONObject();
-                            jo.put("event", "BANNER_FAILED");
-                            jo.put("message",msg);
+                     if(callbackContextEvent != null){
+                            PluginResult result;
+                            try{
+                                JSONObject jo = new JSONObject();
+                                jo.put("event", "BANNER_FAILED");
+                                jo.put("message",msg);
 
-                            result = new PluginResult(PluginResult.Status.OK, jo);
-                            result.setKeepCallback(true);
-                            callbackContextEvent.sendPluginResult(result);
+                                result = new PluginResult(PluginResult.Status.OK, jo);
+                                result.setKeepCallback(true);
+                                callbackContextEvent.sendPluginResult(result);
 
-                        }catch(JSONException je){
-                            result = new PluginResult(PluginResult.Status.OK, je.getMessage());
-                            result.setKeepCallback(true);
-                            callbackContextEvent.sendPluginResult(result);
-                        }
-                 }
+                            }catch(JSONException je){
+                                result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                                result.setKeepCallback(true);
+                                callbackContextEvent.sendPluginResult(result);
+                            }
+                     }
 
                 }
 
@@ -239,7 +280,6 @@ public class GDApi extends CordovaPlugin {
                    
                 }
 
-
                 @Override
                 public void onAPINotReady(String error){
                     super.onAPIReady();
@@ -263,6 +303,81 @@ public class GDApi extends CordovaPlugin {
                             callbackContextEvent.sendPluginResult(result);
                         }
                     }
+                   
+                }
+
+                @Override
+                public void onPreloadedAdCompleted() {
+                    super.onPreloadedAdCompleted();
+
+                    if(callbackContextEvent != null){
+                        PluginResult result;
+                        try{
+
+                            JSONObject jo = new JSONObject();
+                            jo.put("event", "PRELOAD_COMPLETE");
+
+                            result = new PluginResult(PluginResult.Status.OK, jo);
+                            result.setKeepCallback(true);
+                            callbackContextEvent.sendPluginResult(result);
+
+                        }catch(JSONException je){
+                            result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                            result.setKeepCallback(true);
+                            callbackContextEvent.sendPluginResult(result);
+                        }
+                    }
+
+                   
+                }
+
+                @Override
+                public void onAdPreloaded() {
+                    super.onAdPreloaded();
+
+                    if(callbackContextEvent != null){
+                        PluginResult result;
+                        try{
+                        
+                        JSONObject jo = new JSONObject();
+                        jo.put("event", "PRELOAD_AD");
+
+                        result = new PluginResult(PluginResult.Status.OK, jo);
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+
+                        }catch(JSONException je){
+                            result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                            result.setKeepCallback(true);
+                            callbackContextEvent.sendPluginResult(result);
+                        }
+                    }
+                    
+                }
+
+                @Override
+                public void onPreloadFailed(String msg) {
+                    super.onPreloadFailed(msg);
+
+                    if(callbackContextEvent != null){
+                        PluginResult result;
+                        
+                        try{
+                        JSONObject jo = new JSONObject();
+                        jo.put("event", "PRELOAD_FAILED");
+                        jo.put("message",msg);
+
+                        result = new PluginResult(PluginResult.Status.OK, jo);
+                        result.setKeepCallback(true);
+                        callbackContextEvent.sendPluginResult(result);
+
+                        }catch(JSONException je){
+                            result = new PluginResult(PluginResult.Status.OK, je.getMessage());
+                            result.setKeepCallback(true);
+                            callbackContextEvent.sendPluginResult(result);
+                        }
+                    }
+
                    
                 }
 

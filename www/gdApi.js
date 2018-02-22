@@ -15,3 +15,7 @@ exports.enableTestAds = function() {
 exports.setAdListener = function(success, error) {
     exec(success, error, "gdApi", "setAdListener", []);
 };
+
+exports.showPreload = function() {
+    exec(null, null, "gdApi", "showPreload", []);
+};
