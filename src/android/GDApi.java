@@ -36,11 +36,6 @@ public class GDApi extends CordovaPlugin {
             return true;
         }
 
-        if(action.equals("showPreload")){
-            this.showPreload(callbackContext);
-            return true;
-        }
-
         if(action.equals("enableTestAds")){
             this.enableTestAds(callbackContext);
             return true;
@@ -94,39 +89,6 @@ public class GDApi extends CordovaPlugin {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     GDlogger.ShowBanner(true);
-                }
-            });
-        }
-        else{
-            if(callbackContextEvent != null){
-                PluginResult result;
-                try{
-                    JSONObject jo = new JSONObject();
-                    jo.put("event", "API_NOT_READY");
-                    jo.put("message","Api is not initialized. Firstly call init method to continue.");
-
-                    result = new PluginResult(PluginResult.Status.OK, jo);
-                    result.setKeepCallback(true);
-                    callbackContextEvent.sendPluginResult(result);
-
-                }catch(JSONException je){
-                    result = new PluginResult(PluginResult.Status.OK, je.getMessage());
-                    result.setKeepCallback(true);
-                    callbackContextEvent.sendPluginResult(result);
-                }
-            }
-
-        }
-    }
-
-    //this method shows a preload ad if there is any
-    private void showPreload(CallbackContext callbackContext){
-
-        if(isApiInitialized){
-
-            this.cordova.getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    GDlogger.ShowPreload();
                 }
             });
         }
