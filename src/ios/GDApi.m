@@ -168,5 +168,45 @@ NSString *savedCommandId;
     callbackId:savedCommandId];
 }
 
+-(void) onPreloadFailed:(GDAdDelegate*) sender withData:(NSData*) data{
+    NSDictionary *adData = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSLog(@"Preload failed to load!");
+
+    NSArray *keys = [NSArray arrayWithObjects:@"event",@"message", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"PRELOAD_FAILED",adData[@"error"], nil];
+    NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                       forKeys:keys];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult
+    callbackId:savedCommandId]; 
+}
+
+-(void) onAdPreloaded:(GDAdDelegate*) sender{
+    NSLog(@"onAdPreloaded");
+    NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"PRELOAD_AD", nil];
+    NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                       forKeys:keys];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult
+    callbackId:savedCommandId];
+}
+
+-(void) onPreloadedAdCompleted:(GDAdDelegate*) sender{
+    NSLog(@"onPreloadedAdCompleted");
+    NSArray *keys = [NSArray arrayWithObjects:@"event", nil];
+    NSArray *objects = [NSArray arrayWithObjects:@"PRELOAD_COMPLETE", nil];
+    NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                       forKeys:keys];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:myData] ;
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult
+    callbackId:savedCommandId];   
+}
 
 @end
