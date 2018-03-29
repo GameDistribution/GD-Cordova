@@ -1,6 +1,6 @@
 {
   "name": "@gamedistribution.com/cordova-plugin-gdapi",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "This plugin was implemented by GameDistribution. It can be used on both ios and android platform.",
   "cordova": {
     "id": "cordova-plugin-gdapi",
